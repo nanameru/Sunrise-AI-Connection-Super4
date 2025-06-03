@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>営農アシスタント AIエージェント アーキテクチャ図</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .description {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .description h2 {
+            color: #444;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        .description ul {
+            line-height: 1.8;
+            color: #555;
+        }
+        .effect-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>営農アシスタント</h1>
+        <p class="subtitle">〜地方農業の人手不足を解決するAIエージェント〜</p>
+        
+        <div class="mermaid">
+graph TB
+    subgraph "🌾 営農アシスタント・システムアーキテクチャ"
+        subgraph "ユーザー"
+            USER["👤 利用者<br/>都市部エンジニア / 地方農家 / 農業法人"]
+        end
+        
+        subgraph "入力"
+            SIMPLE["シンプルな入力<br/>📝 栽培品目 + 日報のみ"]
+        end
+        
+        subgraph "AIによる一貫サポート"
+            direction LR
+            AI1["🏠 空き家・民泊<br/>クローラー"]
+            AI2["💰 補助金・助成金<br/>ウォッチャー"]
+            AI3["📊 Agri-Pitch AI<br/>販路拡大"]
+        end
+        
+        subgraph "技術基盤"
+            CORE["🧠 Amazon Bedrock (Claude 3)<br/>＋<br/>AWS Step Functions<br/>＋<br/>Amazon DynamoDB"]
+        end
+        
+        subgraph "外部データ連携"
+            direction TB
+            EXT["気象API｜J-Grants｜EC価格<br/>宿泊サイト｜求人サイト｜交通API"]
+        end
+        
+        subgraph "7つの自動生成物"
+            direction TB
+            O1["📅 年間作付計画・収支試算"]
+            O2["📄 農地手続き・申請書類"]
+            O3["💵 補助金リスト・タイムライン"]
+            O4["👷 人員計画・作業割当"]
+            O5["📖 業務マニュアル"]
+            O6["🏡 移住準備サポート"]
+            O7["📈 販路拡大プレゼン"]
+        end
+        
+        USER -->|"入力"| SIMPLE
+        SIMPLE -->|"LINE/Web"| CORE
+        CORE --> AI1
+        CORE --> AI2
+        CORE --> AI3
+        
+        AI1 -.->|"データ取得"| EXT
+        AI2 -.->|"データ取得"| EXT
+        AI3 -.->|"Canva/Slides連携"| O7
+        
+        CORE --> O1
+        CORE --> O2
+        CORE --> O3
+        CORE --> O4
+        CORE --> O5
+        CORE --> O6
+        
+        O1 -->|"LINE通知"| USER
+        O2 -->|"LINE通知"| USER
+        O3 -->|"LINE通知"| USER
+        O4 -->|"LINE通知"| USER
+        O5 -->|"LINE通知"| USER
+        O6 -->|"LINE通知"| USER
+        O7 -->|"LINE通知"| USER
+    end
+    
+    subgraph "効果"
+        EFFECT["✅ 事務負担削減 -100時間/年<br/>✅ 新規就農者増加 +15%<br/>✅ 補助金活用率向上 +30%<br/>✅ 販路拡大による所得向上 +20%"]
+    end
+    
+    style USER fill:#e8f5e9,stroke:#4caf50,stroke-width:3px
+    style SIMPLE fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
+    style CORE fill:#fff3e0,stroke:#ff9800,stroke-width:3px
+    style AI3 fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    style EFFECT fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+        </div>
+        
+        <div class="description">
+            <h2>システム概要</h2>
+            <p>営農アシスタントは、栽培品目と日報を入力するだけで、作付計画・収支試算・補助金検索・農地手続・労務管理を自動化し、宿泊先提案や交通手配、販路拡大プレゼンサポートまで一気通貫で支援するAIエージェント型サービスです。</p>
+            
+            <h2>主要な特徴</h2>
+            <ul>
+                <li><strong>シンプルな入力</strong>: ユーザーは「栽培品目」と「日報」のみを入力</li>
+                <li><strong>AIエージェントによる自動化</strong>: 複数のAIエージェントが外部データと連携して情報を収集・処理</li>
+                <li><strong>7つの自動生成物</strong>: 作付計画から販路拡大プレゼンまで幅広くサポート</li>
+                <li><strong>高可用性技術基盤</strong>: Amazon Bedrock (Claude 3)、AWS Step Functions、DynamoDBを活用</li>
+            </ul>
+            
+            <div class="effect-box">
+                <h2>期待される効果</h2>
+                <ul>
+                    <li>事務負担削減: <strong>年間100時間以上</strong></li>
+                    <li>新規就農者増加: <strong>+15%</strong></li>
+                    <li>補助金活用率向上: <strong>+30%</strong></li>
+                    <li>販路拡大による所得向上: <strong>+20%</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html> 
