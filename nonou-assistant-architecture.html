@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>営農アシスタント AIエージェント アーキテクチャ図</title>
+    <title>営農アシスタント 技術アーキテクチャ図</title>
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
     <style>
         body {
@@ -13,7 +13,7 @@
             background-color: #f5f5f5;
         }
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background-color: white;
             padding: 30px;
@@ -24,139 +24,268 @@
             color: #333;
             text-align: center;
             margin-bottom: 10px;
+            font-size: 2em;
         }
         .subtitle {
             text-align: center;
             color: #666;
             margin-bottom: 30px;
+            font-size: 1.2em;
         }
         .mermaid {
             text-align: center;
-        }
-        .description {
-            margin-top: 30px;
+            background-color: #fafafa;
             padding: 20px;
-            background-color: #f8f9fa;
             border-radius: 8px;
         }
-        .description h2 {
-            color: #444;
-            font-size: 1.3em;
-            margin-bottom: 15px;
-        }
-        .description ul {
-            line-height: 1.8;
-            color: #555;
-        }
-        .effect-box {
+        .tech-note {
             margin-top: 20px;
             padding: 15px;
-            background-color: #e8f5e9;
-            border-left: 4px solid #4caf50;
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
             border-radius: 4px;
+        }
+        .tech-note h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .agent-tools {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .agent-card {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .agent-card h4 {
+            margin-top: 0;
+            color: #9c27b0;
+        }
+        .agent-card ul {
+            margin: 10px 0;
+            padding-left: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>営農アシスタント</h1>
-        <p class="subtitle">〜地方農業の人手不足を解決するAIエージェント〜</p>
+        <h1>営農アシスタント・システムアーキテクチャ</h1>
+        <p class="subtitle">〜Mastraフレームワークを活用したAIエージェント型農業支援システム〜</p>
         
         <div class="mermaid">
 graph TB
-    subgraph "🌾 営農アシスタント・システムアーキテクチャ"
-        subgraph "ユーザー"
-            USER["👤 利用者<br/>都市部エンジニア / 地方農家 / 農業法人"]
-        end
-        
-        subgraph "入力"
-            SIMPLE["シンプルな入力<br/>📝 栽培品目 + 日報のみ"]
-        end
-        
-        subgraph "AIによる一貫サポート"
-            direction LR
-            AI1["🏠 空き家・民泊<br/>クローラー"]
-            AI2["💰 補助金・助成金<br/>ウォッチャー"]
-            AI3["📊 Agri-Pitch AI<br/>販路拡大"]
-        end
-        
-        subgraph "技術基盤"
-            CORE["🧠 Amazon Bedrock (Claude 3)<br/>＋<br/>AWS Step Functions<br/>＋<br/>Amazon DynamoDB"]
-        end
-        
-        subgraph "外部データ連携"
-            direction TB
-            EXT["気象API｜J-Grants｜EC価格<br/>宿泊サイト｜求人サイト｜交通API"]
-        end
-        
-        subgraph "7つの自動生成物"
-            direction TB
-            O1["📅 年間作付計画・収支試算"]
-            O2["📄 農地手続き・申請書類"]
-            O3["💵 補助金リスト・タイムライン"]
-            O4["👷 人員計画・作業割当"]
-            O5["📖 業務マニュアル"]
-            O6["🏡 移住準備サポート"]
-            O7["📈 販路拡大プレゼン"]
-        end
-        
-        USER -->|"入力"| SIMPLE
-        SIMPLE -->|"LINE/Web"| CORE
-        CORE --> AI1
-        CORE --> AI2
-        CORE --> AI3
-        
-        AI1 -.->|"データ取得"| EXT
-        AI2 -.->|"データ取得"| EXT
-        AI3 -.->|"Canva/Slides連携"| O7
-        
-        CORE --> O1
-        CORE --> O2
-        CORE --> O3
-        CORE --> O4
-        CORE --> O5
-        CORE --> O6
-        
-        O1 -->|"LINE通知"| USER
-        O2 -->|"LINE通知"| USER
-        O3 -->|"LINE通知"| USER
-        O4 -->|"LINE通知"| USER
-        O5 -->|"LINE通知"| USER
-        O6 -->|"LINE通知"| USER
-        O7 -->|"LINE通知"| USER
+    subgraph "Users"
+        USER[fa:fa-users ユーザー<br/>都市部エンジニア・地方農家・農業法人]
     end
     
-    subgraph "効果"
-        EFFECT["✅ 事務負担削減 -100時間/年<br/>✅ 新規就農者増加 +15%<br/>✅ 補助金活用率向上 +30%<br/>✅ 販路拡大による所得向上 +20%"]
+    subgraph "AWS Cloud"
+        subgraph "Region ap-northeast-1"
+            subgraph "VPC"
+                subgraph "Public Subnet"
+                    ALB[fa:fa-sitemap Application Load Balancer]
+                    APIGW[fa:fa-cloud API Gateway]
+                end
+                
+                subgraph "Private Subnet - Application Layer"
+                    LAMBDA[fa:fa-code Lambda Functions<br/>ビジネスロジック処理]
+                    STEP[fa:fa-tasks Step Functions<br/>ワークフロー制御]
+                    
+                    subgraph "Mastra Framework"
+                        MASTRA[fa:fa-robot Mastra<br/>AIエージェント管理フレームワーク]
+                        
+                        subgraph "Agent 1: 空き家・民泊クローラー"
+                            AGENT1[fa:fa-home Agent 1]
+                            TOOL1A[fa:fa-search 物件検索ツール]
+                            TOOL1B[fa:fa-map 地域情報収集ツール]
+                            TOOL1C[fa:fa-calculator 価格分析ツール]
+                        end
+                        
+                        subgraph "Agent 2: 補助金・助成金ウォッチャー"
+                            AGENT2[fa:fa-money Agent 2]
+                            TOOL2A[fa:fa-university 補助金検索ツール]
+                            TOOL2B[fa:fa-calendar 申請期限管理ツール]
+                            TOOL2C[fa:fa-file-text 申請書作成ツール]
+                        end
+                        
+                        subgraph "Agent 3: Agri-Pitch AI"
+                            AGENT3[fa:fa-chart-line Agent 3]
+                            TOOL3A[fa:fa-chart-bar 市場分析ツール]
+                            TOOL3B[fa:fa-paint-brush スライド生成ツール]
+                            TOOL3C[fa:fa-bullhorn プレゼン最適化ツール]
+                        end
+                    end
+                end
+                
+                subgraph "Private Subnet - AI/ML Layer"
+                    BEDROCK[fa:fa-brain Amazon Bedrock<br/>Claude Opus 4]
+                end
+                
+                subgraph "Private Subnet - Data Layer"
+                    DYNAMO[fa:fa-database DynamoDB<br/>ユーザーデータ・農業データ]
+                    S3[fa:fa-archive S3<br/>ドキュメント・画像保存]
+                end
+            end
+        end
+        
+        subgraph "External Services"
+            LINE[fa:fa-comment LINE Messaging API]
+            WEATHER[fa:fa-cloud-sun 気象API]
+            GRANTS[fa:fa-university J-Grants API]
+            MARKET[fa:fa-shopping-cart ECプラットフォーム]
+            PROPERTY[fa:fa-home 不動産サイト]
+            CANVA[fa:fa-paint-brush Canva API]
+            GSLIDES[fa:fa-file-powerpoint Google Slides API]
+        end
     end
     
-    style USER fill:#e8f5e9,stroke:#4caf50,stroke-width:3px
-    style SIMPLE fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
-    style CORE fill:#fff3e0,stroke:#ff9800,stroke-width:3px
-    style AI3 fill:#fce4ec,stroke:#e91e63,stroke-width:2px
-    style EFFECT fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+    subgraph "Generated Outputs"
+        OUT1[fa:fa-calendar 年間作付計画<br/>収支試算書]
+        OUT2[fa:fa-file-text 農地手続き書類<br/>申請書類一式]
+        OUT3[fa:fa-list 補助金リスト<br/>申請タイムライン]
+        OUT4[fa:fa-users 人員計画<br/>作業割当表]
+        OUT5[fa:fa-book 業務マニュアル<br/>作業手順書]
+        OUT6[fa:fa-home 移住準備サポート<br/>物件・交通情報]
+        OUT7[fa:fa-presentation 販路拡大プレゼン<br/>スライド資料]
+    end
+    
+    %% ユーザーフロー
+    USER -->|入力: 栽培品目・日報| ALB
+    ALB --> APIGW
+    APIGW --> LAMBDA
+    LAMBDA --> STEP
+    STEP --> MASTRA
+    
+    %% Mastra内のエージェント制御
+    MASTRA ==> AGENT1
+    MASTRA ==> AGENT2
+    MASTRA ==> AGENT3
+    
+    %% Agent 1のツール実行
+    AGENT1 --> TOOL1A
+    AGENT1 --> TOOL1B
+    AGENT1 --> TOOL1C
+    TOOL1A -.->|API| PROPERTY
+    TOOL1B -.->|API| WEATHER
+    
+    %% Agent 2のツール実行
+    AGENT2 --> TOOL2A
+    AGENT2 --> TOOL2B
+    AGENT2 --> TOOL2C
+    TOOL2A -.->|API| GRANTS
+    
+    %% Agent 3のツール実行
+    AGENT3 --> TOOL3A
+    AGENT3 --> TOOL3B
+    AGENT3 --> TOOL3C
+    TOOL3A -.->|API| MARKET
+    TOOL3B -.->|API| CANVA
+    TOOL3B -.->|API| GSLIDES
+    
+    %% AI処理
+    AGENT1 --> BEDROCK
+    AGENT2 --> BEDROCK
+    AGENT3 --> BEDROCK
+    
+    %% データ保存
+    BEDROCK --> DYNAMO
+    BEDROCK --> S3
+    
+    %% アウトプット生成
+    TOOL1A --> OUT6
+    TOOL1B --> OUT6
+    TOOL1C --> OUT6
+    
+    TOOL2A --> OUT3
+    TOOL2B --> OUT3
+    TOOL2C --> OUT2
+    
+    TOOL3A --> OUT1
+    TOOL3B --> OUT7
+    TOOL3C --> OUT7
+    
+    MASTRA --> OUT4
+    MASTRA --> OUT5
+    
+    %% LINE通知
+    LAMBDA -.->|Webhook| LINE
+    OUT1 -.->|通知| LINE
+    OUT2 -.->|通知| LINE
+    OUT3 -.->|通知| LINE
+    OUT4 -.->|通知| LINE
+    OUT5 -.->|通知| LINE
+    OUT6 -.->|通知| LINE
+    OUT7 -.->|通知| LINE
+    
+    LINE -.->|配信| USER
+    
+    %% スタイリング
+    classDef userStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
+    classDef awsStyle fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    classDef mastraStyle fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px
+    classDef agentStyle fill:#e1bee7,stroke:#9c27b0,stroke-width:2px
+    classDef toolStyle fill:#f8bbd0,stroke:#e91e63,stroke-width:1px
+    classDef aiStyle fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    classDef dataStyle fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    classDef externalStyle fill:#f5f5f5,stroke:#757575,stroke-width:2px
+    classDef outputStyle fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
+    
+    class USER userStyle
+    class ALB,APIGW,LAMBDA,STEP awsStyle
+    class MASTRA mastraStyle
+    class AGENT1,AGENT2,AGENT3 agentStyle
+    class TOOL1A,TOOL1B,TOOL1C,TOOL2A,TOOL2B,TOOL2C,TOOL3A,TOOL3B,TOOL3C toolStyle
+    class BEDROCK aiStyle
+    class DYNAMO,S3 dataStyle
+    class LINE,WEATHER,GRANTS,MARKET,PROPERTY,CANVA,GSLIDES externalStyle
+    class OUT1,OUT2,OUT3,OUT4,OUT5,OUT6,OUT7 outputStyle
         </div>
         
-        <div class="description">
-            <h2>システム概要</h2>
-            <p>営農アシスタントは、栽培品目と日報を入力するだけで、作付計画・収支試算・補助金検索・農地手続・労務管理を自動化し、宿泊先提案や交通手配、販路拡大プレゼンサポートまで一気通貫で支援するAIエージェント型サービスです。</p>
-            
-            <h2>主要な特徴</h2>
+        <div class="tech-note">
+            <h3>技術アーキテクチャの特徴</h3>
             <ul>
-                <li><strong>シンプルな入力</strong>: ユーザーは「栽培品目」と「日報」のみを入力</li>
-                <li><strong>AIエージェントによる自動化</strong>: 複数のAIエージェントが外部データと連携して情報を収集・処理</li>
-                <li><strong>7つの自動生成物</strong>: 作付計画から販路拡大プレゼンまで幅広くサポート</li>
-                <li><strong>高可用性技術基盤</strong>: Amazon Bedrock (Claude 3)、AWS Step Functions、DynamoDBを活用</li>
+                <li><strong>Mastraフレームワーク</strong>: 複数のAIエージェントとそのツールを統合管理</li>
+                <li><strong>Claude Opus 4 (Amazon Bedrock)</strong>: 全てのAIエージェントで高度な自然言語処理を実現</li>
+                <li><strong>ツール駆動型アーキテクチャ</strong>: 各エージェントが専門的なツールを実行してアウトプットを生成</li>
+                <li><strong>外部API連携</strong>: 各ツールが必要に応じて外部サービスと連携</li>
             </ul>
-            
-            <div class="effect-box">
-                <h2>期待される効果</h2>
+        </div>
+        
+        <div class="agent-tools">
+            <div class="agent-card">
+                <h4>🏠 Agent 1: 空き家・民泊クローラー</h4>
+                <strong>ツール:</strong>
                 <ul>
-                    <li>事務負担削減: <strong>年間100時間以上</strong></li>
-                    <li>新規就農者増加: <strong>+15%</strong></li>
-                    <li>補助金活用率向上: <strong>+30%</strong></li>
-                    <li>販路拡大による所得向上: <strong>+20%</strong></li>
+                    <li>物件検索ツール</li>
+                    <li>地域情報収集ツール</li>
+                    <li>価格分析ツール</li>
                 </ul>
+                <strong>生成物:</strong> 移住準備サポート資料
+            </div>
+            
+            <div class="agent-card">
+                <h4>💰 Agent 2: 補助金・助成金ウォッチャー</h4>
+                <strong>ツール:</strong>
+                <ul>
+                    <li>補助金検索ツール</li>
+                    <li>申請期限管理ツール</li>
+                    <li>申請書作成ツール</li>
+                </ul>
+                <strong>生成物:</strong> 補助金リスト、申請書類
+            </div>
+            
+            <div class="agent-card">
+                <h4>📊 Agent 3: Agri-Pitch AI</h4>
+                <strong>ツール:</strong>
+                <ul>
+                    <li>市場分析ツール</li>
+                    <li>スライド生成ツール</li>
+                    <li>プレゼン最適化ツール</li>
+                </ul>
+                <strong>生成物:</strong> 販路拡大プレゼン、作付計画
             </div>
         </div>
     </div>
@@ -167,7 +296,9 @@ graph TB
             theme: 'default',
             flowchart: {
                 htmlLabels: true,
-                curve: 'basis'
+                curve: 'basis',
+                nodeSpacing: 50,
+                rankSpacing: 80
             }
         });
     </script>
